@@ -1,6 +1,5 @@
 import ctypes
 
-# change according to your workspace directory
 lib = ctypes.CDLL('./textfile.dll')
 
 class TextFile:

@@ -4,9 +4,9 @@ from textfile_wrapper import TextFile
 from word_data import WordData
 from sia_data import SiaData
 
-# uncomment for first run
-# import nltk
-# nltk.download('vader_lexicon')
+# optionally comment out after first run
+import nltk
+nltk.download('vader_lexicon')
 
 # translate raw form data to WordData format
 def format_csv(form_path, out_path: str) -> None:
