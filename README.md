@@ -1,9 +1,9 @@
 # form-analysis
 ## Functionality
 Give the program a csv file with names and their respective text blobs (such as responses from a survey) and the program will:
--Record the words that appear in the text blobs, alphabetically and/or by number of occurences
--Record the sentiment of each response
--Record the number of positive, neutral, and negative responses
+- Record the words that appear in the text blobs, alphabetically and/or by number of occurences
+- Record the sentiment of each response
+- Record the number of positive, neutral, and negative responses
 All data is outputted to json, and a graph is saved as a png.
 ## Structure
 - ```cpp_source```: C/C++ code to parse the text blobs 
