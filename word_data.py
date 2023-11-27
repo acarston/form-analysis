@@ -10,7 +10,7 @@ class WordData:
             with open(csv_filepath) as csvfile:
                 # load the data for future handling
                 reader = csv.reader(csvfile)
-                self.data: list[tuple[str, list[str], int]] = [(row[0], row[1].split(";"), int(row[2])) for row in reader]
+                self.data: list[tuple[str, list[str], int, int]] = [(row[0], row[1].split(";"), int(row[2]), int(row[3])) for row in reader]
                 self.__set_data_lists()
 
         except FileNotFoundError:
@@ -23,7 +23,8 @@ class WordData:
     def __set_data_lists(self) -> None:
         self.words: list[str] = [pair[0] for pair in self.data]
         self.names: list[list[str]] = [pair[1] for pair in self.data]
-        self.counts: list[int] = [pair[2] for pair in self.data]
+        self.num_people: list[int] = [pair[2] for pair in self.data]
+        self.occurences: list[int] = [pair[3] for pair in self.data]
 
     # reorganize by number of occurences; irreversable
     def sort_by_count(self) -> None:
@@ -33,7 +34,7 @@ class WordData:
     def plot_words(self, title: str, out_path: str) -> None:
         fig, ax = plt.subplots(figsize=(8, 5))
 
-        ax.bar(self.words, self.counts)
+        ax.bar(self.words, self.num_people)
         ax.set_xlabel('Words')
         ax.set_xticks(range(len(self.words)), labels=self.words, rotation='vertical')
         ax.set_ylabel('Occurences')
@@ -47,6 +48,7 @@ class WordData:
         jdata: list[dict[str, str | list[str] | int]] = [{
             'word': self.words[i], 
             'people': self.names[i],
-            'count': self.counts[i]
+            'number of people': self.num_people[i],
+            'number of occurences': self.occurences[i]
         } for i in range(len(self.data))]
         json.dump(jdata, open(out_path, 'w'))
