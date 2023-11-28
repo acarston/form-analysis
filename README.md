@@ -14,7 +14,7 @@ All data is outputted to json, and a graph is saved as a png.
 - ```sia_data.py```: performs sentiment analysis using the ```nltk``` module
 ## Getting Started
 1. Run ```pip install -r requirements.txt``` in your environment
-2. In main.py, specify the directory to dump the data (DATA_DIR) and the path to the csv form (FORM_PATH)
+2. In main.py, specify the directory to dump the data (DATA_DIR) and the path to the csv form (FORM_CSV)
 3. Optionally specify the data output paths
 4. The input csv must not have headers. The program expects the name in the first column and the text blob in the second. Text blobs should be in quotes
 5. Uncomment/comment functions in main.py according to instructions/preference
