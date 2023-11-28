@@ -62,7 +62,7 @@ class SiaData:
                 'neu': mean([block['neu'] for block in self.sia_info]),
                 'pos': mean([block['pos'] for block in self.sia_info])
             }
-        }, open(out_path, 'w'))
+        }, open(out_path, 'w'), indent=4)
 
     def dump_summary(self, out_path: str):
         json.dump({
@@ -72,4 +72,4 @@ class SiaData:
                 'positive': self.summary[2],
                 'total': int(sum(self.summary))
             }
-        }, open(out_path, 'w'))
+        }, open(out_path, 'w'), indent=4)

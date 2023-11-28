@@ -51,4 +51,4 @@ class WordData:
             'number of people': self.num_people[i],
             'number of occurences': self.occurences[i]
         } for i in range(len(self.data))]
-        json.dump(jdata, open(out_path, 'w'))
+        json.dump(jdata, open(out_path, 'w'), indent=4)
