@@ -1,4 +1,6 @@
 __pycache__/
 venv/
-data/
+*.json
+*.png
+words.csv
 .vscode/
