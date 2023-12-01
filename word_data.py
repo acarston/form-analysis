@@ -5,13 +5,14 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as plticker
 
 class WordData:
-    def __init__(self, csv_filepath) -> None:
+    def __init__(self, csv_filepath: str, is_default: bool) -> None:
         try:
             with open(csv_filepath) as csvfile:
                 # load the data for future handling
                 reader = csv.reader(csvfile)
                 self.data: list[tuple[str, list[str], int, int]] = [(row[0], row[1].split(";"), int(row[2]), int(row[3])) for row in reader]
                 self.__set_data_lists()
+                self.is_default = is_default
 
         except FileNotFoundError:
             print(f'Error: file {csv_filepath} not found')
@@ -28,13 +29,13 @@ class WordData:
 
     # reorganize by number of occurences; irreversable
     def sort_by_count(self) -> None:
-        self.data = sorted(self.data, key=lambda pair: pair[2], reverse=True)
+        self.data = sorted(self.data, key=lambda pair: pair[2], reverse=True) if self.is_default else sorted(self.data, key=lambda pair: pair[3], reverse=True)
         self.__set_data_lists()
 
     def plot_words(self, title: str, out_path: str) -> None:
         fig, ax = plt.subplots(figsize=(8, 5))
 
-        ax.bar(self.words, self.num_people)
+        ax.bar(self.words, self.num_people) if self.is_default else ax.bar(self.words, self.occurences)
         ax.set_xlabel('Words')
         ax.set_xticks(range(len(self.words)), labels=self.words, rotation='vertical')
         ax.set_ylabel('Occurences')

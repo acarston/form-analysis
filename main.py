@@ -1,3 +1,4 @@
+import sys
 import os
 import csv
 from textfile_wrapper import TextFile
@@ -7,6 +8,18 @@ from sia_data import SiaData
 # comment out after first run
 import nltk
 nltk.download('vader_lexicon')
+
+# interpret command-line arguments
+def is_default() -> bool:
+    if len(sys.argv) > 2:
+        print("Too many arguments. Try -h or --help for more info.")
+        sys.exit(0)
+
+    if len(sys.argv) < 2 or sys.argv[1] == '-s': return True
+    if sys.argv[1] == '-c': return False
+
+    print('\nUsage: python main.py [option]\n-c\t\tTotal number of occurences for each word\n-h, --help\tDisplay this message\n-s\t\tNumber of people using at least one of each word (default)\n')
+    sys.exit(0)
 
 # translate raw form data to WordData format
 def format_csv(form_path, out_path: str) -> None:
@@ -37,7 +50,7 @@ def main():
     format_csv(FORM_CSV, WORDS_CSV)
 
     # comment out as needed
-    word_data = WordData(WORDS_CSV)
+    word_data = WordData(WORDS_CSV, is_default())
     word_data.dump(WORDS_ALPHA_JSON)
     word_data.plot_words('Word Frequencies by Alphabetical Order', WORDS_ALPHA_PNG)
     word_data.sort_by_count()
