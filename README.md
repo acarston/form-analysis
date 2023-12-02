@@ -18,4 +18,4 @@ All data is outputted to json, and a graph is saved as a png.
 3. Optionally specify the data output paths
 4. The input csv must not have headers. The program expects the name in the first column and the text blob in the second. Text blobs should be in quotes
 5. Uncomment/comment functions in main.py according to instructions/preference
-6. Run main.py
+6. Run main.py. By default, the data will be organized according to how many respondents mentioned a particular word. To organize according to the total number of occurences of each word, run ```python main.py -c``` or ```python main.py --help``` for more options
