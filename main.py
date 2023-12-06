@@ -27,14 +27,9 @@ def format_csv(form_path, out_path: str, names: bool = False, headers: bool = Tr
     with open(form_path) as csvfile:
         reader = csv.reader(csvfile)
         if headers: next(reader)
-        name = 0
-        for row in reader:
-            name += 1
-            if len(row) == 0: 
-                name -= 1
-                continue
+        for i, row in enumerate([r for r in reader if len(r) != 0], 1):
             if names: textfile.set_input(row[1], row[0])
-            else: textfile.set_input(row[0], str(name))
+            else: textfile.set_input(row[0], str(i))
             textfile.parse_into_tree()
 
     textfile.print_words(out_path)

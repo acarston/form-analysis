@@ -7,8 +7,10 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as plticker
 
 class SiaData:
-    def __init__(self, form_path: str) -> None:
+    def __init__(self, form_path: str, headers: bool = True, names: bool = False) -> None:
         self.form_path = form_path
+        self.headers = headers
+        self.names = names
         self.__set_sentiment_info()
         self.__set_sentiment_summary()
 
@@ -16,10 +18,11 @@ class SiaData:
     def __set_sentiment_info(self) -> None:
         sia = SentimentIntensityAnalyzer()
         self.sia_info: list[dict[str, str | float]] = []
-        with open (self.form_path) as csvfile:
+        with open(self.form_path) as csvfile:
             reader = csv.reader(csvfile)
-            for row in reader:
-                ps = sia.polarity_scores(row[1])
+            if self.headers: next(reader)
+            for row in [r for r in reader if len(r) != 0]:
+                ps = sia.polarity_scores(row[1]) if self.names else sia.polarity_scores(row[0])
                 self.sia_info.append({
                     'name': row[0],
                     'neg': ps['neg'],
@@ -31,13 +34,14 @@ class SiaData:
     # categorize reponses into pos, neu, neg based on compound score
     def __set_sentiment_summary(self) -> None:
         # set thresholds arbitrarily
-        BIAS = 0.4
+        NEG_BIAS = 0.05
+        POS_BIAS = 0.2
         # count negative, neutral, positive responses
         self.summary: list[int] = [0, 0, 0]
         for block in self.sia_info:
-            com: float = block['compound']
-            if com < -BIAS: self.summary[0] += 1
-            elif com < BIAS: self.summary[1] += 1
+            com: float = block['pos'] - block['neg']
+            if com < NEG_BIAS: self.summary[0] += 1
+            elif com < POS_BIAS: self.summary[1] += 1
             else: self.summary[2] += 1
 
     def plot_summary(self, out_path: str) -> None:
