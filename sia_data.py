@@ -40,9 +40,15 @@ class SiaData:
         self.summary: list[int] = [0, 0, 0]
         for block in self.sia_info:
             com: float = block['pos'] - block['neg']
-            if com < NEG_BIAS: self.summary[0] += 1
-            elif com < POS_BIAS: self.summary[1] += 1
-            else: self.summary[2] += 1
+            if com < NEG_BIAS: 
+                self.summary[0] += 1
+                block['conclusion'] = 'negative'
+            elif com < POS_BIAS: 
+                self.summary[1] += 1
+                block['conclusion'] = 'neutral'
+            else: 
+                self.summary[2] += 1
+                block['conclusion'] = 'positive'
 
     def plot_summary(self, out_path: str) -> None:
         fig, ax = plt.subplots(figsize=(8, 5))

@@ -54,10 +54,10 @@ def main():
     # comment out as needed
     word_data = WordData(WORDS_CSV, is_default())
     word_data.dump(WORDS_ALPHA_JSON)
-    word_data.plot_words('Word Frequencies by Alphabetical Order', WORDS_ALPHA_PNG)
+    # word_data.plot_words('Word Frequencies by Alphabetical Order', WORDS_ALPHA_PNG)
     word_data.sort_by_count()
     word_data.dump(WORDS_COUNT_JSON)
-    word_data.plot_words('Word Frequencies by Number of Occurences', WORDS_COUNT_PNG)
+    # word_data.plot_words('Word Frequencies by Number of Occurences', WORDS_COUNT_PNG)
 
     siaInfo = SiaData(FORM_CSV)
     siaInfo.dump_info(SENTIMENT_INFO_JSON)
