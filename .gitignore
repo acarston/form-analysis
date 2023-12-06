@@ -3,4 +3,5 @@ venv/
 *.json
 *.png
 words.csv
+GE_size_comments.csv
 .vscode/

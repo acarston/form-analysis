@@ -6,8 +6,8 @@ from word_data import WordData
 from sia_data import SiaData
 
 # comment out after first run
-import nltk
-nltk.download('vader_lexicon')
+# import nltk
+# nltk.download('vader_lexicon')
 
 # interpret command-line arguments
 def is_default() -> bool:
@@ -22,12 +22,19 @@ def is_default() -> bool:
     sys.exit(0)
 
 # translate raw form data to WordData format
-def format_csv(form_path, out_path: str) -> None:
+def format_csv(form_path, out_path: str, names: bool = False, headers: bool = True) -> None:
     textfile = TextFile()
     with open(form_path) as csvfile:
         reader = csv.reader(csvfile)
+        if headers: next(reader)
+        name = 0
         for row in reader:
-            textfile.set_input(row[1], row[0])
+            name += 1
+            if len(row) == 0: 
+                name -= 1
+                continue
+            if names: textfile.set_input(row[1], row[0])
+            else: textfile.set_input(row[0], str(name))
             textfile.parse_into_tree()
 
     textfile.print_words(out_path)
@@ -37,7 +44,7 @@ def main():
 
     # configure input and output files
     DATA_DIR = './data/'
-    FORM_CSV = f'{DATA_DIR}foo.csv'
+    FORM_CSV = f'{DATA_DIR}GE_size_comments.csv'
     WORDS_CSV = f'{DATA_DIR}words.csv'
     WORDS_ALPHA_JSON = f'{DATA_DIR}words_alpha.json'
     WORDS_COUNT_JSON = f'{DATA_DIR}words_count.json'
