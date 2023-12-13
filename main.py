@@ -6,8 +6,8 @@ from word_data import WordData
 from sia_data import SiaData
 
 # comment out after first run
-# import nltk
-# nltk.download('vader_lexicon')
+import nltk
+nltk.download('vader_lexicon')
 
 # interpret command-line arguments
 def get_options() -> dict[str, bool]:    
