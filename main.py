@@ -22,7 +22,7 @@ def is_default() -> bool:
     sys.exit(0)
 
 # translate raw form data to WordData format
-def format_csv(form_path, out_path: str, names: bool = False, headers: bool = True) -> None:
+def format_csv(form_path: str, out_path: str, phrases: bool, names: bool = False, headers: bool = True) -> None:
     textfile = TextFile()
     with open(form_path) as csvfile:
         reader = csv.reader(csvfile)
@@ -30,7 +30,7 @@ def format_csv(form_path, out_path: str, names: bool = False, headers: bool = Tr
         for i, row in enumerate([r for r in reader if len(r) != 0], 1):
             if names: textfile.set_input(row[1], row[0])
             else: textfile.set_input(row[0], str(i))
-            textfile.parse_into_tree()
+            textfile.parse_into_tree(phrases)
 
     textfile.print_words(out_path)
 
@@ -49,7 +49,7 @@ def main():
     SENTIMENT_SUMMARY_JSON = f'{DATA_DIR}sentiment_summary.json'
     SENTIMENT_SUMMARY_PNG = f'{DATA_DIR}sentiment_summary.png'
 
-    format_csv(FORM_CSV, WORDS_CSV)
+    format_csv(FORM_CSV, WORDS_CSV, True) # TODO make this a cl arg
 
     # comment out as needed
     word_data = WordData(WORDS_CSV, is_default())

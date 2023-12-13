@@ -24,8 +24,8 @@ class TextFile:
     def set_input(self, input: str, person: str) -> None:
         lib.c_set_input(self.obj, input, person)
         
-    def parse_into_tree(self) -> None:
-        lib.c_parse_into_tree(self.obj)
+    def parse_into_tree(self, phrases: bool) -> None:
+        lib.c_parse_into_tree(self.obj, phrases)
 
     def print_words(self, filePath: str) -> None:
         lib.c_print_words(self.obj, filePath)
