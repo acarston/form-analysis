@@ -64,7 +64,7 @@ class SiaData:
 
         plt.savefig(out_path, dpi=600, bbox_inches='tight')
     
-    def dump_info(self, out_path: str):
+    def dump_info(self, out_path: str) -> None:
         json.dump({
             'people': self.sia_info,
             'averages': {
@@ -74,7 +74,7 @@ class SiaData:
             }
         }, open(out_path, 'w'), indent=4)
 
-    def dump_summary(self, out_path: str):
+    def dump_summary(self, out_path: str) -> None:
         json.dump({
             'responses': {
                 'negative': self.summary[0],

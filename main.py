@@ -10,16 +10,27 @@ from sia_data import SiaData
 # nltk.download('vader_lexicon')
 
 # interpret command-line arguments
-def is_default() -> bool:
-    if len(sys.argv) > 2:
-        print("Too many arguments. Try -h or --help for more info.")
+def get_options() -> dict[str, bool]:
+    if len(sys.argv) > 3:
+        print('Too many arguments. Try -h or --help for more info.')
         sys.exit(0)
+    
+    if '-h' in sys.argv or '--help' in sys.argv: 
+        print('\nUsage: python main.py [options]\n-c\t\tSort by total number of occurences for each word\n-h, --help\tDisplay this message\n-p\t\tparse words as 2-letter phrases\n-s\t\tSort by number of people using at least one of each word (default)\n')
+        sys.exit(0)
+ 
+    options: dict[str, bool] = {}
+    if '-c' in sys.argv:
+        if '-s' in sys.argv: 
+            print('Conflicting arguments. Try -h or --help for more info.')
+            sys.exit(0)
+        options['sort by people'] = False
+    else: options['sort by people'] = True
 
-    if len(sys.argv) < 2 or sys.argv[1] == '-s': return True
-    if sys.argv[1] == '-c': return False
+    if '-p' in sys.argv: options['phrases'] = True
+    else: options['phrases'] = False
 
-    print('\nUsage: python main.py [option]\n-c\t\tTotal number of occurences for each word\n-h, --help\tDisplay this message\n-s\t\tNumber of people using at least one of each word (default)\n')
-    sys.exit(0)
+    return options
 
 # translate raw form data to WordData format
 def format_csv(form_path: str, out_path: str, phrases: bool, names: bool = False, headers: bool = True) -> None:
@@ -35,6 +46,8 @@ def format_csv(form_path: str, out_path: str, phrases: bool, names: bool = False
     textfile.print_words(out_path)
 
 def main():
+    options = get_options()
+
     os.chdir(os.path.dirname(__file__))
 
     # configure input and output files
@@ -49,10 +62,10 @@ def main():
     SENTIMENT_SUMMARY_JSON = f'{DATA_DIR}sentiment_summary.json'
     SENTIMENT_SUMMARY_PNG = f'{DATA_DIR}sentiment_summary.png'
 
-    format_csv(FORM_CSV, WORDS_CSV, True) # TODO make this a cl arg
+    format_csv(FORM_CSV, WORDS_CSV, options['phrases'])
 
     # comment out as needed
-    word_data = WordData(WORDS_CSV, is_default())
+    word_data = WordData(WORDS_CSV, options['sort by people'])
     word_data.dump(WORDS_ALPHA_JSON)
     # word_data.plot_words('Word Frequencies by Alphabetical Order', WORDS_ALPHA_PNG)
     word_data.sort_by_count()

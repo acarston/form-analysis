@@ -45,7 +45,7 @@ class WordData:
 
         plt.savefig(out_path, dpi=600, bbox_inches='tight')
     
-    def dump(self, out_path: str):
+    def dump(self, out_path: str) -> None:
         jdata: list[dict[str, str | list[str] | int]] = [{
             'word': self.words[i], 
             'people': self.names[i],
