@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as plticker
 
 class SiaData:
-    def __init__(self, form_path: str, headers: bool = True, names: bool = False) -> None:
+    def __init__(self, form_path: str, names: bool, headers: bool) -> None:
         self.form_path = form_path
         self.headers = headers
         self.names = names
